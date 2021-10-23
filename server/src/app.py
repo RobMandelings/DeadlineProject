@@ -1,21 +1,44 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
 import uuid
 
-# configuration
-DEBUG = True
+import sys
+import flask
+import flask_cors
+import server.src.config as config
 
-# instantiate the app
-app = Flask(__name__)
-app.config.from_object(__name__)
 
-# enable CORS
-"""
-It's worth noting that the above setup allows cross-origin requests on all routes, from any domain, protocol, or port. 
-In a production environment, you should only allow cross-origin requests from the domain where the front-end application is hosted. 
-Refer to the Flask-CORS documentation for more info on this.
-"""
-CORS(app, resources={r'/*': {'origins': '*'}})
+def init_cli_commands(app):
+    """
+    Initializes commands which can be used by the flask commandline
+    :param app: instance of the flask application
+    :return: void
+    """
+    pass
+
+
+def init_app(config_type='production'):
+    """
+    Initializes the flask server application, creating an 'app' instance, loading in configurations and setting up the
+    database system.
+    :param config_type: development, production
+    :return: the instanced flask app
+    """
+    # instantiate the app
+    app = flask.Flask(__name__)
+    app.config.from_object(config.config[config_type])
+
+    # enable CORS
+    # It's worth noting that the above setup allows cross-origin requests on all routes, from any domain, protocol, or port.
+    # In a production environment, you should only allow cross-origin requests from the domain where the front-end application is hosted.
+    # Refer to the Flask-CORS documentation for more info on this.
+    flask_cors.CORS(app, resources={r'/*': {'origins': '*'}})
+
+    return app
+
+
+if len(sys.argv) > 2:
+    app = init_app(sys.argv[2])
+else:
+    app = init_app()
 
 BOOKS = [
     {
@@ -39,40 +62,40 @@ BOOKS = [
 ]
 
 
-@app.route('/books', methods=['GET', 'POST'])
-def all_books():
-    response_object = {'status': 'success'}
-    if request.method == 'POST':
-        post_data = request.get_json()
-        BOOKS.append({
-            'id': uuid.uuid4().hex,
-            'title': post_data.get('title'),
-            'author': post_data.get('author'),
-            'read': post_data.get('read')
-        })
-        response_object['message'] = 'Book added!'
-    else:
-        response_object['books'] = BOOKS
-    return jsonify(response_object)
-
-
-@app.route('/books/<book_id>', methods=['PUT', 'DELETE'])
-def single_book(book_id):
-    response_object = {'status': 'success'}
-    if request.method == 'PUT':
-        post_data = request.get_json()
-        remove_book(book_id)
-        BOOKS.append({
-            'id': uuid.uuid4().hex,
-            'title': post_data.get('title'),
-            'author': post_data.get('author'),
-            'read': post_data.get('read')
-        })
-        response_object['message'] = 'Book updated!'
-    if request.method == 'DELETE':
-        remove_book(book_id)
-        response_object['message'] = 'Book removed!'
-    return jsonify(response_object)
+# @app.route('/books', methods=['GET', 'POST'])
+# def all_books():
+#     response_object = {'status': 'success'}
+#     if request.method == 'POST':
+#         post_data = request.get_json()
+#         BOOKS.append({
+#             'id': uuid.uuid4().hex,
+#             'title': post_data.get('title'),
+#             'author': post_data.get('author'),
+#             'read': post_data.get('read')
+#         })
+#         response_object['message'] = 'Book added!'
+#     else:
+#         response_object['books'] = BOOKS
+#     return jsonify(response_object)
+#
+#
+# @app.route('/books/<book_id>', methods=['PUT', 'DELETE'])
+# def single_book(book_id):
+#     response_object = {'status': 'success'}
+#     if request.method == 'PUT':
+#         post_data = request.get_json()
+#         remove_book(book_id)
+#         BOOKS.append({
+#             'id': uuid.uuid4().hex,
+#             'title': post_data.get('title'),
+#             'author': post_data.get('author'),
+#             'read': post_data.get('read')
+#         })
+#         response_object['message'] = 'Book updated!'
+#     if request.method == 'DELETE':
+#         remove_book(book_id)
+#         response_object['message'] = 'Book removed!'
+#     return jsonify(response_object)
 
 
 def remove_book(book_id):
@@ -84,9 +107,9 @@ def remove_book(book_id):
 
 
 # sanity check route
-@app.route('/ping', methods=['GET'])
-def ping_pong():
-    return jsonify('pong!')
+# @app.route('/ping', methods=['GET'])
+# def ping_pong():
+#     return jsonify('pong!')
 
 
 if __name__ == '__main__':

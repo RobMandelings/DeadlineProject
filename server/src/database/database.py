@@ -4,6 +4,10 @@ db = sqlalchemy.SQLAlchemy()
 
 
 def init_db():
+    """
+    (Re)Initializes the database with all tables empty
+    :return:
+    """
     drop_db()
     db.create_all()
 
