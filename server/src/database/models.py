@@ -2,9 +2,17 @@
 Do not forget
 https://stackoverflow.com/questions/710551/use-import-module-or-from-module-import
 """
+import enum
+
 from sqlalchemy import PrimaryKeyConstraint, ForeignKeyConstraint
 
 import database as db
+
+
+class CourseRights(enum.Enum):
+    VIEW = enum.auto(),
+    MANAGE = enum.auto(),
+    ADMIN = enum.auto()
 
 
 class FieldOfStudy(db.db.Model):
