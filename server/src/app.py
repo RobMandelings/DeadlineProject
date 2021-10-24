@@ -25,6 +25,7 @@ def init_cli_commands(app):
 @cli.with_appcontext
 def init_db_command():
     # TODO niet hier importeren?
+
     database.init_db()
     click.echo('Initialized the database')
 
@@ -40,6 +41,7 @@ def init_app(config_type='development'):
     app = flask.Flask(__name__)
     app.config.from_object(config.config[config_type])
     init_cli_commands(app)
+    database.db.app = app
     database.db.init_app(app)
 
     # enable CORS

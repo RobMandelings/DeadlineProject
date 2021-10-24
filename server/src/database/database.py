@@ -9,6 +9,7 @@ def init_db():
     :return:
     """
     drop_db()
+    import server.src.database.models
     db.create_all()
 
 
