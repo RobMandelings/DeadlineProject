@@ -1,6 +1,4 @@
-import flask_sqlalchemy as sqlalchemy
-
-db = sqlalchemy.SQLAlchemy()
+from . import db
 
 
 def init_db():
@@ -9,7 +7,6 @@ def init_db():
     :return:
     """
     drop_db()
-    import server.src.database.models
     db.create_all()
 
 

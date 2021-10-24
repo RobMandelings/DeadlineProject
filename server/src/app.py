@@ -6,6 +6,7 @@ import click
 import flask
 import flask_cors
 import database.database as database
+import server.src.database.models
 import config
 
 # TODO import server.src.config as config
@@ -24,8 +25,6 @@ def init_cli_commands(app):
 @click.command('init-db')
 @cli.with_appcontext
 def init_db_command():
-    # TODO niet hier importeren?
-
     database.init_db()
     click.echo('Initialized the database')
 
@@ -40,9 +39,8 @@ def init_app(config_type='development'):
     # instantiate the app
     app = flask.Flask(__name__)
     app.config.from_object(config.config[config_type])
-    init_cli_commands(app)
-    database.db.app = app
     database.db.init_app(app)
+    init_cli_commands(app)
 
     # enable CORS
     # It's worth noting that the above setup allows cross-origin requests on all routes, from any domain, protocol, or port.

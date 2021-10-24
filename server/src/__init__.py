@@ -1,3 +1,3 @@
-import server.src.api
+import database
 
 api = 'Hi'

@@ -1,9 +1,11 @@
-import enum
-import sqlalchemy
-import server.src.database.database as db
+"""
+Do not forget
+https://stackoverflow.com/questions/710551/use-import-module-or-from-module-import
+"""
+
+import database
 
 
-class FieldOfStudy(db.db.Model):
-    id = db.db.Column(db.db.Integer, primary_key=True)
-    name = db.db.Column(db.db.String)
-    print('hi')
+class FieldOfStudy(database.db.Model):
+    id = database.db.Column(database.db.Integer, primary_key=True)
+    name = database.db.Column(database.db.String)
