@@ -1,11 +1,53 @@
 GetCourseManagers
 
-CourseResource: get, push, delete, put...
-CourseManagerResource:
-DeadlineResource: add, remove, update...
+CoursesResource: get
 
-AddDeadline
-GetDeadlines
-CourseManagers
+    get:
+
+    Just a simple argument in the url
+
+    http://localhost/api/courses/
+
+CourseResource: get, delete, put
+
+    get,delete,put:
+
+    http://localhost/api/courses/<course_id>/
+
+NewCourseResource: post
+
+    post:
+
+    http://localhost/api/courses/add/<course_name>
+
+UserResource: get, delete, put
+
+    get, delete, put:
+
+    http://localhost/api/users/<user_id>/<args>
+
+    (Arguments are not part of the api but can be used, these are 'getManagedCourses', ...
+
+NewUserResource: post
+
+    post:
+
+    http://localhost/api/users/<user_id>
+
+AddManagesCourseResource: post
+
+    http://localhost/api/users/<user_id>/add_course/<course_id>
+
+DeadlineResource: get, put, delete:
+
+    get, put, delete:
+
+    http://localhost/api/deadlines/<deadline_id>/
+
+    post:
+
+    http://localhost/api/deadlines/add/
+
+    Send in JSON
 
 Marshmallow Schemes

@@ -1,0 +1,14 @@
+{
+  "course_ids": [
+    11,
+    10
+  ],
+  "due_date": {
+    "begin": 0,
+    "end": 500
+  },
+  "announced_date": {
+    "begin": 0,
+    "end": 5000
+  }
+}
