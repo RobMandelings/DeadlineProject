@@ -18,8 +18,8 @@ class FieldOfStudy(db.db.Model):
 
 class Course(db.db.Model):
     course_id = db.db.Column(db.db.Integer, primary_key=True)
+    course_name = db.db.Column(db.db.String, nullable=False, unique=True)
     fos_id = db.db.Column(db.db.Integer, nullable=False)
-    man_name = db.db.Column(db.db.String, nullable=False)
 
     __table_args__ = (
         ForeignKeyConstraint(('fos_id',), ('field_of_study.fos_id',), ondelete='CASCADE',
@@ -29,12 +29,12 @@ class Course(db.db.Model):
 
 
 class ManagesCourse(db.db.Model):
-    man_id = db.db.Column(db.db.Integer, nullable=False)
+    user_id = db.db.Column(db.db.Integer, nullable=False)
     course_id = db.db.Column(db.db.Integer, nullable=False)
 
     __table_args__ = (
-        PrimaryKeyConstraint('man_id', 'course_id'),
-        ForeignKeyConstraint(('man_id',), ('course_manager.man_id',), ondelete='CASCADE',
+        PrimaryKeyConstraint('user_id', 'course_id'),
+        ForeignKeyConstraint(('user_id',), ('user.user_id',), ondelete='CASCADE',
                              onupdate='CASCADE'),
         ForeignKeyConstraint(('course_id',), ('course.course_id',), ondelete='CASCADE',
                              onupdate='CASCADE'),
@@ -42,9 +42,9 @@ class ManagesCourse(db.db.Model):
     )
 
 
-class CourseManager(db.db.Model):
-    man_id = db.db.Column(db.db.Integer, primary_key=True)
-    man_name = db.db.Column(db.db.String, nullable=False)
+class User(db.db.Model):
+    user_id = db.db.Column(db.db.Integer, primary_key=True)
+    user_name = db.db.Column(db.db.String, nullable=False)
     password_hash = db.db.Column(db.db.String, nullable=False)
 
     manages_courses = db.db.relationship('Course', secondary=ManagesCourse.__table__, backref='managed_by',
