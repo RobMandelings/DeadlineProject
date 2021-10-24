@@ -6,6 +6,7 @@ import click
 import flask
 import flask_cors
 import database.database as database
+import api
 import server.src.database.models
 import config
 
@@ -40,6 +41,7 @@ def init_app(config_type='development'):
     app = flask.Flask(__name__)
     app.config.from_object(config.config[config_type])
     database.db.init_app(app)
+    api.api.init_app(app)
     init_cli_commands(app)
 
     # enable CORS

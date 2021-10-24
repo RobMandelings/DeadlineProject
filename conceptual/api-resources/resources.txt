@@ -1,0 +1,11 @@
+GetCourseManagers
+
+CourseResource: get, push, delete, put...
+CourseManagerResource:
+DeadlineResource: add, remove, update...
+
+AddDeadline
+GetDeadlines
+CourseManagers
+
+Marshmallow Schemes
